@@ -6,6 +6,8 @@ require('./passport-setup');
 const cookieSession = require('cookie-session');
 const authRoutes = require('./routes/auth-routes');
 const passport = require('passport');
+const examRoutes = require('./routes/exam-routes');
+const bodyParser = require('body-parser');
 
 
 const app = express();
@@ -15,6 +17,9 @@ app.use(cookieSession({
     maxAge: 300 * 24 * 60 * 60 * 1000,
     keys: [process.env.COOKIE_KEY]
 }));
+
+// parse application/json
+app.use(bodyParser.json());
 
 // initialize passport
 app.use(passport.initialize());
@@ -33,6 +38,7 @@ mongoose.connect(process.env.DB_URI,
 
 // set up routes
 app.use('/auth', authRoutes);
+app.use('/exam', examRoutes);
 
 function checkUser(req, res, next){
     if(req.user){
