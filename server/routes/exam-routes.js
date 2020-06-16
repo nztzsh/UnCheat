@@ -52,12 +52,44 @@ router.post('/schedule', async function(req, res){
     }
 });
 
-router.get('/examsCreated', function(req, res){
-    res.json({exams: req.user.examsCreated});
+router.get('/examsCreated', async function(req, res){
+    let exams = [];
+    for(i=0; i<req.user.examsCreated.length; i++){
+        let exam = await Exam.findById(req.user.examsCreated[i]);
+        exams.push({
+        examName: exam.examName, 
+        examId: exam._id,
+        duration: exam.duration,
+        courseName: exam.courseName,
+        courseId: exam.courseId,
+        date: exam.date,
+        });
+    }
+    res.json({exams: exams});
 });
 
 router.get('/examsAttended', function(req, res){
-    res.json({exams: req.user.examsAttended});
+    let exams = []
+    for(i=0; i<req.user.examsAttended.length; i++){
+        let exam = await Exam.findById(req.user.examsAttended[i]);
+        let marks = 'NA';
+        for(j=0; j<exam.responses.length; j++){
+            if(exam.responses[j].email === req.user.email){
+                marks = exam.responses[j].marks;
+                break;
+            }
+        }
+        exams.push({
+            examName: exam.examName,
+            examId: exam._id,
+            duration: exam.duration,
+            courseName: exam.courseName,
+            courseId: exam.courseId,
+            date: exam.date,
+            marks: marks
+        });
+    }
+    res.json({exams: exams});
 });
 
 module.exports = router;
