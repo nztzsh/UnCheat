@@ -35,6 +35,7 @@ router.post('/schedule', async function(req, res){
         await exam.save();
         let user = await User.findById(req.user._id);
         await user.examsCreated.push(exam._id);
+        await user.save();
         if(exam.examinees.length > 0){
             for(i=0; i<exam.examinees.length; i++){
                 let examinee = await User.findOne({email: exam.examinees[i]});
@@ -44,7 +45,14 @@ router.post('/schedule', async function(req, res){
                 }
             }
         }
-        return res.json({exam: exam});
+        return res.json({newExam: 
+            {examName: exam.examName, 
+            examId: exam._id,
+            duration: exam.duration,
+            courseName: exam.courseName,
+            courseId: exam.courseId,
+            date: exam.date.getDate() + '-' + exam.date.getMonth() + '-' + exam.date.getFullYear(),
+            time: exam.date.getHours() + ':' + exam.date.getMinutes()}});
     }
     catch(e){
         console.log(e);
@@ -62,13 +70,14 @@ router.get('/examsCreated', async function(req, res){
         duration: exam.duration,
         courseName: exam.courseName,
         courseId: exam.courseId,
-        date: exam.date,
+        date: exam.date.getDate() + '-' + exam.date.getMonth() + '-' + exam.date.getFullYear(),
+        time: exam.date.getHours() + ':' + exam.date.getMinutes()
         });
     }
     res.json({exams: exams});
 });
 
-router.get('/examsAttended', function(req, res){
+router.get('/examsAttended', async function(req, res){
     let exams = []
     for(i=0; i<req.user.examsAttended.length; i++){
         let exam = await Exam.findById(req.user.examsAttended[i]);
@@ -85,7 +94,8 @@ router.get('/examsAttended', function(req, res){
             duration: exam.duration,
             courseName: exam.courseName,
             courseId: exam.courseId,
-            date: exam.date,
+            date: exam.date.getDate() + '-' + exam.date.getMonth() + '-' + exam.date.getFullYear(),
+            time: exam.date.getHours() + ':' + exam.date.getMinutes(),
             marks: marks
         });
     }

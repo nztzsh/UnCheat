@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const OptionSchema = new Schema({
-    optionNo: {type: Number},
+    optionNo: {type: String},
     option: {type: String},
     isCorrect: {type: Boolean}
 });
