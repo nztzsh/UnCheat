@@ -85,7 +85,7 @@ function checkUser(req, res, next){
 }
 
 app.use(checkUser);
-app.use(express.static(path.join(__dirname, "..", "build")));
+app.use('/app', express.static(path.join(__dirname, "..", "build")));
 app.use(express.static("public"));
 
 
