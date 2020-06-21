@@ -364,7 +364,7 @@ class Home extends Component {
                             
                             {this.props.examsAttended.map(exam => {
                                 return(
-                                    <tr key = {exam.examId} onClick = {() => this.props.history.push('/exam/' + exam.examId)}>
+                                    <tr key = {exam.examId} onClick = {() => this.props.history.push('/test/' + exam.examId)}>
                                         <td> {exam.examName} </td>
                                         <td> {exam.courseName} </td>
                                         <td> {exam.courseId} </td>
@@ -399,7 +399,7 @@ class Home extends Component {
                             
                             {this.props.examsCreated.map(exam => {
                                 return(
-                                    <tr key = {exam.examId} onClick = {() => this.props.history.push('/exam/' + exam.examId)}>
+                                    <tr key = {exam.examId} onClick = {() => this.props.history.push('/test/' + exam.examId)}>
                                         <td> {exam.examName} </td>
                                         <td> {exam.courseName} </td>
                                         <td> {exam.courseId} </td>

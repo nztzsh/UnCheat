@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const mongoose = require('mongoose');
 const Exam = require('../models/Exam');
 const User = require('../models/User');
 
@@ -100,6 +101,64 @@ router.get('/examsAttended', async function(req, res){
         });
     }
     res.json({exams: exams});
+});
+
+router.get('/writeExam', async function(req, res){
+    try{
+        let examId = mongoose.Types.ObjectId(req.query.examId);
+        let exam = await Exam.findById(examId);
+
+        //if exam is conducted by user
+        if(exam.conductedBy.equals(req.user._id)){
+            res.json({
+                message: 'details',
+                examName: exam.examName,
+                examType: exam.examType,
+                duration: exam.duration,
+                noOfQues: exam.noOfQues,
+                courseName: exam.courseName,
+                courseId: exam.courseId,
+                monitoring: exam.monitoring,
+                date: exam.date.getDate() + '-' + exam.date.getMonth() + '-' + exam.date.getFullYear() + ' ' + exam.date.getHours() + ':' + exam.date.getMinutes(),
+                examinees: exam.examinees,
+                responses: exam.responses   
+        });
+        }
+        //else
+        else{
+            res.json({
+                message: 'write',
+                duration: exam.duration,
+                date: exam.date,
+                noOfQues: exam.noOfQues,
+                monitoring: exam.monitoring,
+                questions: exam.questions,
+                examinees: exam.examinees
+            });
+        }
+    }
+    catch(e){
+        console.log(e);
+    }
+});
+
+router.post('/submit', async function(req,res){
+    let myoptions = req.body.options;
+    let exam = await Exam.findById(mongoose.Types.ObjectId(req.body.examId));
+    let marks = 0;
+    for(i=0; i<myoptions.length; i++){
+        if(exam.questions[i].options.find(option => option.optionNo === myoptions[i]).isCorrect){
+            marks = marks + 1;
+        }
+    }
+    let response = {email: req.user.email, marks: marks};
+    exam.responses.push(response);
+    await exam.save();
+    if(!req.user.examsAttended.some(examId => examId.equals(exam._id))){
+        req.user.examsAttended.push(examId);
+        await req.user.save();
+    }
+    res.redirect('/');
 });
 
 module.exports = router;

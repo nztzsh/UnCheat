@@ -8,9 +8,14 @@ const authRoutes = require('./routes/auth-routes');
 const passport = require('passport');
 const examRoutes = require('./routes/exam-routes');
 const bodyParser = require('body-parser');
+const Exam = require('./models/Exam');
+
 
 
 const app = express();
+
+//Set View engine
+app.set('view engine', 'ejs');
 
 // set up session cookies
 app.use(cookieSession({
@@ -40,15 +45,47 @@ mongoose.connect(process.env.DB_URI,
 app.use('/auth', authRoutes);
 app.use('/exam', examRoutes);
 
+app.get('/test/:examId',async function(req, res){
+    try{
+      if(req.user){
+        let examId = mongoose.Types.ObjectId(req.params.examId);
+        let exam = await Exam.findById(examId);
+        //if exam is created by user
+        if(exam.conductedBy.equals(req.user._id)){
+  
+        }else{
+          //if user is not allowed to give exam
+          if(!(exam.examinees.some(att => att === req.user.email))){
+            res.send('You are not allowed to give this exam');
+          }
+          //if exam has not started yet
+          //else if(new Date().getTime() < exam.date.getTime()){
+            //res.send('Exam has not started yet');
+          //}
+          else{
+            res.render('WriteExam', {exam: exam, questions: exam.questions});
+          }
+        }
+        
+      }
+      else{
+        res.redirect('/');
+      }
+    }
+    catch(e){
+      console.log(e);
+    }
+});
+
 function checkUser(req, res, next){
     if(req.user){
-        req.url = `/app/${req.url}`;
+      req.url = `/app/${req.url}`;
     }
     next()
 }
 
 app.use(checkUser);
-app.use('/app', express.static(path.join(__dirname, "..", "build")));
+app.use(express.static(path.join(__dirname, "..", "build")));
 app.use(express.static("public"));
 
 

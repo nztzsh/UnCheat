@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <style>
+        .navbar-dark {
+            background-color: #39394D;
+        }
+        .navbar-nav > li{
+            padding-left:10px;
+            padding-right:10px;
+        }
+        .navbar-brand {
+            color: #33363B ;
+            font-weight: bold !important;
+        }
+        #navbar-1 {
+            color: lightgray;
+            font-weight: bold;
+        }
+        #navbar-1:hover{
+            color: floralwhite;
+        }
+        #navbar-2{
+            color: #1b67e9e7;
+            font-weight: bold;   
+        }
+        #navbar-2:hover{
+            color:#045df6 ;
+        }
+        #nav-2-dropdown{
+            color: #1b67e9e7;
+        }
+        #side-nav{
+            background-color: #F7F7FA;
+        }
+        #side-nav-head {
+            padding-left: 30px;
+            padding-top: 40px;
+            padding-bottom: 15px;
+            font-weight: lighter;
+        }
+
+        #side-nav-subhead {
+            padding-left: 60px;
+            padding-top: 15px;
+            padding-bottom:5px ;
+
+        }
+
+        .side-nav-link {
+            padding-left: 80px;
+            padding-top: 15px;
+            padding-bottom:15px ;
+            color: black;
+            font-weight: 500;
+        }
+        .exam-content {
+            padding: 20px ;
+        }
+        .curve-button {
+            border-radius: 25px;
+            margin-top: 40px;
+            margin-left: 40px;
+            margin-bottom: 40px;
+        }
+        #exam-table {
+            background-color: #39394D;
+            color: floralwhite;
+        }
+        .footer {
+            background-color: #39394D;
+            color: floralwhite;
+        }
+        .footer-h2 {
+            padding-top: 40px;
+            padding-left: 40px;
+            margin: 0px;
+        }
+        .footer-brand-line {
+            padding-left: 40px;
+            margin: 0;
+            
+
+        }
+        .footer-link{
+            color: floralwhite;
+            
+        }
+        #footer-mid {
+            padding-top: 40px;
+        }
+        #footer-break {
+            border: 1px solid floralwhite;
+
+        }
+        .footer-social {
+            color: floralwhite;
+            padding: 7px;
+
+        }
+        .modal-header {
+            color: floralwhite;
+        }
+        .modal-body {
+            background-color: #F7F5F4;
+        }
+        .exam-nav-brand {
+            color: floralwhite !important;
+        }
+
+        #exam-question {
+            padding-top: 100px;
+        }
+        .finish-button {
+            color: floralwhite;
+            background-color: #39394D;
+            padding: 20px;
+            font-weight: bold;
+            font-size: 20px;
+            margin: 0;
+            text-align: left;
+        }
+        .finish-button:hover {
+            color: red;
+            background-color: black;
+        }
+        .exam-h5 {
+            padding: 25px;
+        }
+        .work_in_progress {
+            padding-top: 150px ;
+        }
+        .warning {
+            color: red;
+        }
+        span {
+            color: white;
+            font-size: 20px;
+        }
+
+        .option {
+            color: black;
+        }
+    </style>
+      <!-- jQuery first, then Popper.js, then Bootstrap JS. -->
+      <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  
+      <script>
+          var examDate = "<%=exam.date %>";
+          var duration = "<%=exam.duration %>";
+          // The data/time we want to countdown to
+          var countDownDate = new Date(new Date(examDate).getTime() + duration * 60000);
+      
+          // Run myfunc every second
+          var myfunc = setInterval(function() {
+      
+          var now = new Date().getTime();
+          var timeleft = countDownDate - now;
+              
+          // Calculating the hours, minutes and seconds left
+          var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
+          var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+              
+          // Result is output to the specific element
+          document.getElementById("hours").innerHTML = hours + "h " 
+          document.getElementById("mins").innerHTML = minutes + "m " 
+          document.getElementById("secs").innerHTML = seconds + "s " 
+              
+          // Display the message when countdown is over
+          if (timeleft < 0) {
+              clearInterval(myfunc);
+              document.getElementById("hours").innerHTML = "" 
+              document.getElementById("mins").innerHTML = ""
+              document.getElementById("secs").innerHTML = ""
+              document.getElementById("end").innerHTML = "TIME UP!!";
+          }
+          }, 1000);
+  
+          function display(i){
+              document.getElementById('question-number').innerHTML = i+1;
+              document.getElementById('questions-left').innerHTML = parseInt("<%= exam.questions.length %>") - i;
+              document.getElementById('question').innerHTML = test.questions[i].ques;
+              document.getElementById('optionA').innerHTML = test.questions[i].options.find(option => option.optionNo === 'A').option;
+              document.getElementById('optionB').innerHTML = test.questions[i].options.find(option => option.optionNo === 'B').option;
+              document.getElementById('optionC').innerHTML = test.questions[i].options.find(option => option.optionNo === 'C').option;
+              document.getElementById('optionD').innerHTML = test.questions[i].options.find(option => option.optionNo === 'D').option;
+          }
+          
+  
+          function openFullscreen() {
+              var elem = document.documentElement;
+              if (elem.requestFullscreen) {
+              elem.requestFullscreen();
+              } else if (elem.mozRequestFullScreen) { /* Firefox */
+              elem.mozRequestFullScreen();
+              } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+              elem.webkitRequestFullscreen();
+              } else if (elem.msRequestFullscreen) { /* IE/Edge */
+              elem.msRequestFullscreen();
+              }
+          }
+
+        var test = <%- JSON.stringify(exam) %>;
+  
+          $(document).ready(function(){
+            window.options = [];
+            window.i = 0;
+            openFullscreen();
+            display(window.i);
+          });
+  
+          $(document).ready(function(){
+              $('#next').click(function(){
+                  console.log('clicked');
+                  if(window.i === test.questions.length - 1){
+                    if(document.getElementById('checkA').checked){
+                          options.push('A');
+                      }
+                      else if(document.getElementById('checkB').checked){
+                          options.push('B');
+                      }
+                      else if(document.getElementById('checkC').checked){
+                          options.push('C');
+                      }
+                      else if(document.getElementById('checkD').checked){
+                          options.push('D');
+                      }
+  
+                      $.ajax({
+                            type: 'POST',
+                            data: JSON.stringify({options: window.options, examId: test._id}),
+                            contentType: "application/json",
+                            dataType:'json',
+                            url: '/exam/submit',                      
+                            success: function(data) {
+                                console.log('success');
+                                console.log(JSON.stringify(data));                               
+                            },
+                            error: function(error) {
+                                console.log("some error in fetching the notifications");
+                            }
+
+                        });
+                          
+                         
+                  }
+                  else{
+                      if(document.getElementById('checkA').checked){
+                          options.push('A');
+                      }
+                      else if(document.getElementById('checkB').checked){
+                          options.push('B');
+                      }
+                      else if(document.getElementById('checkC').checked){
+                          options.push('C');
+                      }
+                      else if(document.getElementById('checkD').checked){
+                          options.push('D');
+                      }
+  
+                      window.i++;
+                      display(window.i);
+                      
+                  }
+  
+              });
+          });
+  
+          
+  
+  
+              
+  
+  
+  
+  
+          </script>
+  
+
+    <title>UnCheat - Upcoming Exams</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark navbar-expand-sm">
+        <div class="container-fluid">
+            <h1 class="navbar-brand exam-nav-brand" >UnCheat</h1>
+            <h1 class="navbar-brand  " ><i class="fa fa-clock-o" aria-hidden="true"></i> Time Left :</h1> <span id = 'hours' > </span> <span id = 'mins'> </span> <span id = 'secs'> </span>
+            <h1 class="navbar-brand  " >Questions Left :</h1> <span id = 'questions-left'> </span>           
+        </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 d-flex justify-content-center" id="exam-question">
+                <h3>Question :</h3> <span id = 'question-number'> </span>
+            </div>
+            <div class="col-sm-7 d-flex justify-content-center" id="exam-question">
+                <h4><div id = 'question'> </div></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 d-flex justify-content-center" id="exam-question">
+                <h3>Options :</h3> 
+            </div>
+            <div class="col-sm-7 d-flex justify-content-center" id="exam-question">
+                <div class="radio">
+                    <h3><label><input type="radio" name="optradio" id = 'checkA'> <span class = 'option' id = 'optionA'> </span></label></h3><br> 
+                    <h3><label><input type="radio" name="optradio" id = 'checkB'> <span class = 'option' id = 'optionB'> </span></label></h3><br> 
+                    <h3><label><input type="radio" name="optradio" id = 'checkC'> <span class = 'option' id = 'optionC'> </span></label></h3><br> 
+                    <h3><label><input type="radio" name="optradio" id = 'checkD'> <span class = 'option' id = 'optionD'> </span></label></h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 d-flex justify-content-center" id="exam-question">
+                <h3>Note :</h3> 
+            </div>
+            <div class="col-sm-7 d-flex justify-content-center" id="exam-question">
+                <div class="warning">
+                    <h3>Do not press any key except left mouse click or else exam will be terminated with current progress.</h3>
+                    <h2>No Warnings Will be given.</h2>
+                    <h3>It is highly adviced to disconnect the keyboard while giving exam.</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 ">
+                <input type="button" class="btn finish-button" value="Next" id = 'next'>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+  
+ </body>
+</html>

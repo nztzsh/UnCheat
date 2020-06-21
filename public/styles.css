@@ -120,3 +120,12 @@
      color: red;
      background-color: black;
  }
+ .exam-h5 {
+     padding: 25px;
+ }
+ .work_in_progress {
+    padding-top: 150px ;
+ }
+ .warning {
+     color: red;
+ }

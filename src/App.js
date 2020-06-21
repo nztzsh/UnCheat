@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Home from './components/Home';
+import WriteExam from './components/WriteExam';
 
 class App extends Component {
 
@@ -14,6 +15,7 @@ class App extends Component {
       <BrowserRouter>
       <Switch>
         <Route exact path = '/' component = {Home} />
+        <Route path = '/exam/:id' component = {WriteExam} />
       </Switch>
       </BrowserRouter>
       </div>
@@ -27,5 +29,6 @@ class App extends Component {
   }
 
 }
+
 
 export default App;
